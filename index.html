@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>My AI Chat</title>
+<script src="https://js.puter.com/v2/"></script>
 <style>
-body{margin:0;font-family:system-ui;background:#0f172a;color:#fff;display:flex;flex-direction:column;height:100vh}
-header{padding:16px;background:#1e293b;text-align:center;font-weight:bold;font-size:20px}
-#chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:80%;padding:12px 16px;border-radius:18px}
+body{margin:0;font-family:sans-serif;background:#0f172a;color:#fff;display:flex;flex-direction:column;height:100vh}
+header{padding:16px;background:#1e293b;text-align:center;font-weight:bold}
+#chat{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:80%;padding:10px 14px;border-radius:16px}
 .user{align-self:flex-end;background:#2563eb}
-.ai{align-self:flex-start;background:#1e293b;border:1px solid #334155}
-#inputArea{display:flex;padding:12px;background:#1e293b;gap:8px}
-input{flex:1;padding:14px;border-radius:24px;border:none;outline:none;background:#0f172a;color:#fff;border:1px solid #334155}
-button{padding:12px 20px;border-radius:24px;border:none;background:#2563eb;color:#fff;font-weight:bold}
+.ai{align-self:flex-start;background:#334155}
+#box{display:flex;padding:10px;background:#1e293b;gap:6px}
+input{flex:1;padding:12px;border-radius:20px;border:none}
+button{padding:10px 18px;border-radius:20px;border:none;background:#2563eb;color:#fff}
 </style>
 </head>
 <body>
-<header>🤖 My AI Chat</header>
-<div id="chat"><div class="msg ai">Namaste! Main aapka AI assistant hu.</div></div>
-<div id="inputArea">
-<input id="input" placeholder="Kuch likho..." />
-<button onclick="send()">Send</button>
-</div>
+<header>My AI Chat - Real AI</header>
+<div id="chat"><div class="msg ai">Namaste! Kuch bhi pucho.</div></div>
+<div id="box"><input id="inp" placeholder="Likho..."><button onclick="go()">Send</button></div>
 <script>
-function send(){
- const i=document.getElementById('input'); const c=document.getElementById('chat');
- if(!i.value) return;
- c.innerHTML+=`<div class=msg user>${i.value}</div>`;
- c.innerHTML+=`<div class=msg ai>Demo reply: ${i.value}</div>`;
- i.value=''; c.scrollTop=c.scrollHeight;
+async function go(){
+let i=document.getElementById('inp');
+let c=document.getElementById('chat');
+let t=i.value; if(!t) return;
+c.innerHTML+=`<div class=msg user>${t}</div>`;
+i.value=''; let d=document.createElement('div');
+d.className='msg ai'; d.innerText='Soch raha hu...'; c.appendChild(d);
+c.scrollTop=c.scrollHeight;
+try{
+let r=await puter.ai.chat(t);
+d.innerText=r;
+}catch(e){d.innerText='Error: '+e.message}
 }
 </script>
 </body>
+
 </html>
